@@ -10,10 +10,11 @@ private:
     int rows = 9;
     int cols = 9;
     int numMines;
-    vector<vector<char>> board;  // Stores mine placement and adjacent counts
+    
     vector<vector<bool>> revealed; // Tracks revealed cells
-
+    vector<vector<bool>> flagged;
 public:
+    vector<vector<char>> board;  // Stores mine placement and adjacent counts
     Minesweeper(int mines) : numMines(mines) {
         createboard();
         placemines();
@@ -183,7 +184,7 @@ int main() {
 
     while (true) {
         game.printboard();
-        int action;
+        char action;
         cout << "Enter r, f or c to reveal, flag or chording: ";
         cin >> action;
         int row, col;
