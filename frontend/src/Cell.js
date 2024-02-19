@@ -4,14 +4,17 @@ import './App.css'; // Import your stylesheet
 
 function Cell({ value, revealed, flagged, onLeftClick, onRightClick}) {
   let displayValue = revealed ? value : ''; // Show value if revealed
-  if (flagged) {
+  if (flagged&&!revealed) {
     displayValue = '🚩'; // Display a flag
   }
 
   return (
     <div className={revealed ? 'cell revealed' : 'cell'}
-    onClick={onLeftClick}
-      onContextMenu={onRightClick}
+      onClick={onLeftClick}
+      onContextMenu={(e) => { 
+        e.preventDefault(); 
+        onRightClick(); 
+      }}
     >
       {displayValue} 
     </div>

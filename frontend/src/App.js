@@ -13,17 +13,30 @@ function App() {
     setBoard(newGame.board);
   };
   const handleLeftClick = (rowIndex, colIndex) => {
-    if (!game.revealed[rowIndex][colIndex]) {
-      game.reveal(rowIndex, colIndex);
-      setBoard(game.board); // Update board state to trigger re-render
+    if (game) { // Make sure the game has started
+      const newGame = new Minesweeper(game.numMines); // Temporary copy of the game
+      newGame.board = [...game.board]; // Shallow copy of the board
+      newGame.revealed = [...game.revealed]; // Shallow copy of revealed state
+      newGame.flagged = [...game.flagged]; // Shallow copy of flagged state
+
+      newGame.reveal(rowIndex, colIndex);
+
+      setGame(newGame);
+      setBoard(newGame.board);
     }
   };
 
   const handleRightClick = (rowIndex, colIndex) => {
-    e.preventDefault(); // Prevent default right-click menu
-    if (!game.revealed[rowIndex][colIndex]) {
-      game.flag(rowIndex, colIndex);
-      setBoard(game.board); // Update board state
+    if (game) {
+      const newGame = new Minesweeper(game.numMines); // Temporary copy of the game
+      newGame.board = [...game.board]; 
+      newGame.revealed = [...game.revealed]; 
+      newGame.flagged = [...game.flagged]; 
+
+      newGame.flag(rowIndex, colIndex);
+
+      setGame(newGame);
+      setBoard(newGame.board);
     }
   };
 
@@ -54,4 +67,3 @@ function App() {
 }
 
 export default App;
-
