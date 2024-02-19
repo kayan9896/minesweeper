@@ -1,17 +1,15 @@
+
 import React from 'react';
-import './Cell.css'; // Assuming you have a Cell.css file for styling
+import './App.css'; // Import your stylesheet
 
 function Cell({ value, revealed, flagged }) {
-  let displayValue = '';
-
-  if (revealed) {
-    displayValue = value === '_' ? '' : value; // Show number or empty if no adjacent mines
-  } else if (flagged) {
-    displayValue = '🚩'; // Flag symbol
+  let displayValue = revealed ? value : ''; // Show value if revealed
+  if (flagged) {
+    displayValue = '🚩'; // Display a flag
   }
 
   return (
-    <div className="cell">
+    <div className={revealed ? 'cell revealed' : 'cell'}>
       {displayValue} 
     </div>
   );
