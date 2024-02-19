@@ -12,6 +12,20 @@ function App() {
     setGame(newGame);
     setBoard(newGame.board);
   };
+  const handleLeftClick = (rowIndex, colIndex) => {
+    if (!game.revealed[rowIndex][colIndex]) {
+      game.reveal(rowIndex, colIndex);
+      setBoard(game.board); // Update board state to trigger re-render
+    }
+  };
+
+  const handleRightClick = (rowIndex, colIndex) => {
+    e.preventDefault(); // Prevent default right-click menu
+    if (!game.revealed[rowIndex][colIndex]) {
+      game.flag(rowIndex, colIndex);
+      setBoard(game.board); // Update board state
+    }
+  };
 
   return (
     <div className="container">
@@ -27,6 +41,8 @@ function App() {
                   value={cellValue} 
                   revealed={game.revealed[rowIndex][colIndex]}
                   flagged={game.flagged[rowIndex][colIndex]}
+                  onLeftClick={() => handleLeftClick(rowIndex, colIndex)}
+                  onRightClick={() => handleRightClick(rowIndex, colIndex)}
                 />
               ))}
             </div>
@@ -38,3 +54,4 @@ function App() {
 }
 
 export default App;
+
