@@ -13,30 +13,25 @@ function App() {
     setBoardState(newGame.board);
   };
 
-  useEffect(() => {
-    // You might want to update boardState based on game actions here
-  }, [game]);
-
-  const renderBoard = () => {
-    return boardState.map((row, rowIndex) => (
-      <div key={rowIndex} className="row">
-        {row.map((cellValue, colIndex) => (
-          <Cell 
-            key={`${rowIndex}-${colIndex}`}
-            value={cellValue}
-            revealed={game.revealed[rowIndex][colIndex]}
-            flagged={game.flagged[rowIndex][colIndex]}
-          />
-        ))}
-      </div>
-    ));
-  };
+  // ... (You'll need functions to handle cell clicks, revealing, flagging, etc.) ...
 
   return (
     <div className="game-container">
-      <h1>Minesweeper</h1>
-      {!game && <button onClick={startGame}>Start Game</button>}
-      {game && renderBoard()}
+      <button onClick={startGame}>Start Game</button>
+      <div className="board">
+        {boardState.map((row, rowIndex) => (
+          <div className="row" key={rowIndex}>
+            {row.map((cellValue, colIndex) => (
+              <Cell 
+                key={`${rowIndex}-${colIndex}`}
+                value={cellValue}
+                revealed={game.revealed[rowIndex][colIndex]}
+                flagged={game.flagged[rowIndex][colIndex]}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
