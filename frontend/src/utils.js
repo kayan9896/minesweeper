@@ -60,6 +60,7 @@ export default class Minesweeper {
         this.revealed[row][col] = true;
 
         if (this.board[row][col] === 'M') {
+            this.board[row][col] === 'X'
             this.gameOver(false);
             return;
         } else if (this.board[row][col] === '0') {
@@ -96,7 +97,7 @@ export default class Minesweeper {
         }
     }
     gameOver(won) {
-        this.revealall()
+        if(!won) this.revealall()
 
         if (won) {
             this.txt="You Win!"

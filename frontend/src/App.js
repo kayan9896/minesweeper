@@ -44,7 +44,7 @@ function App() {
     <div className="container">
       <h1>Minesweeper</h1>
       {!game && <button onClick={startGame}>Start Game</button>}
-      {!txt?null:<div style={{marginBottom:'12px'}}>
+      {!txt?<div style={{marginBottom:'12px'}}><h1> </h1></div>:<div style={{marginBottom:'12px'}}>
         <div>{txt}</div>
         <button onClick={startGame}>Restart</button>
       </div>}
