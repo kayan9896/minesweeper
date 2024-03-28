@@ -8,6 +8,7 @@ export default class Minesweeper {
         this.flagged = [];
         this.createBoard();
         this.placeMines();
+        this.txt=null
     }
 
     createBoard() {
@@ -74,29 +75,34 @@ export default class Minesweeper {
                 }
             }
         }
+        if(this.win()){this.gameOver(true)}
     }
 
     win() {
-        for (let i = 0; i < this.rows; i++) {
-            for (let j = 0; j < this.cols; j++) {
-                if (this.board[i][j] !== 'M' && !this.revealed[i][j]) {
-                    return false;
-                }
+        let ct=0
+
+        for(let i=0;i<this.revealed.length;i++){
+            for(let j=0;j<this.revealed[i].length;j++){
+                if(this.revealed[i][j]) ct+=1
             }
         }
-        return true;
+        return ct===this.revealed.length*this.revealed[0].length-this.numMines
     }
-
-    gameOver(won) {
+    revealall(){
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
                 this.revealed[i][j] = true;
             }
         }
-        this.printBoard();
+    }
+    gameOver(won) {
+        this.revealall()
+
         if (won) {
+            this.txt="You Win!"
             console.log("You Win!");
         } else {
+            this.txt="You Lose! Game Over!"
             console.log("Game Over!");
         }
     }

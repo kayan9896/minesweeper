@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Minesweeper from './utils.js';
 import Cell from './Cell.js';
 import './App.css';
@@ -6,7 +6,13 @@ import './App.css';
 function App() {
   const [game, setGame] = useState(null);
   const [board, setBoard] = useState([]);
-
+  const [txt,setTxt]=useState(null)
+  useEffect(function(){
+    if(game){
+    setTxt(game.txt)
+    console.log(txt)
+  }
+  },[board])
   const startGame = () => {
     const newGame = new Minesweeper(10); // Create a new game with 10 mines
     setGame(newGame);
@@ -14,36 +20,34 @@ function App() {
   };
   const handleLeftClick = (rowIndex, colIndex) => {
     if (game) { // Make sure the game has started
-      const newGame = new Minesweeper(game.numMines); // Temporary copy of the game
-      newGame.board = [...game.board]; // Shallow copy of the board
-      newGame.revealed = [...game.revealed]; // Shallow copy of revealed state
-      newGame.flagged = [...game.flagged]; // Shallow copy of flagged state
-
-      newGame.reveal(rowIndex, colIndex);
-
-      setGame(newGame);
-      setBoard(newGame.board);
+      game.reveal(rowIndex, colIndex);
+      setBoard(()=>([...game.board]));
     }
   };
 
   const handleRightClick = (rowIndex, colIndex) => {
     if (game) {
-      const newGame = new Minesweeper(game.numMines); // Temporary copy of the game
-      newGame.board = [...game.board]; 
-      newGame.revealed = [...game.revealed]; 
-      newGame.flagged = [...game.flagged]; 
-
-      newGame.flag(rowIndex, colIndex);
-
-      setGame(newGame);
-      setBoard(newGame.board);
+      game.flag(rowIndex, colIndex);
+      setBoard(()=>([...game.board]));
     }
   };
+
+  function clickboth(r,c){
+    if (game) {
+      game.chord(r, c);
+      setBoard(()=>([...game.board]));
+      console.log('chord')
+    }
+  }
 
   return (
     <div className="container">
       <h1>Minesweeper</h1>
-      {!game && <button onClick={startGame}>Start Game</button>} 
+      {!game && <button onClick={startGame}>Start Game</button>}
+      {!txt?null:<div style={{marginBottom:'12px'}}>
+        <div>{txt}</div>
+        <button onClick={startGame}>Restart</button>
+      </div>}
       {game && (
         <div className="board">
           {board.map((row, rowIndex) => (
@@ -56,6 +60,7 @@ function App() {
                   flagged={game.flagged[rowIndex][colIndex]}
                   onLeftClick={() => handleLeftClick(rowIndex, colIndex)}
                   onRightClick={() => handleRightClick(rowIndex, colIndex)}
+                  chord={function(){clickboth(rowIndex,colIndex)}}
                 />
               ))}
             </div>
