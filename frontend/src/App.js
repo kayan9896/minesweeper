@@ -9,16 +9,16 @@ function App() {
   const [txt,setTxt]=useState(null)
   useEffect(function(){
     if(game){
-    setTxt(game.txt)
-    console.log(txt)
-  }
+      setTxt(game.txt)
+    }
   },[board])
   const startGame = () => {
     const newGame = new Minesweeper(10); // Create a new game with 10 mines
     setGame(newGame);
     setBoard(newGame.board);
   };
-  const handleLeftClick = (rowIndex, colIndex) => {
+  const handleLeftClick = (rowIndex, colIndex) => { 
+    if(txt==="You Win!") return
     if (game) { // Make sure the game has started
       game.reveal(rowIndex, colIndex);
       setBoard(()=>([...game.board]));

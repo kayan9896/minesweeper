@@ -1,17 +1,25 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css'; // Import your stylesheet
 
 function Cell({ value, revealed, flagged, onLeftClick, onRightClick,chord}) {
-  if (value==='M') value='*'
-  let displayValue = (revealed&&value!=='0') ? value : ''; // Show value if revealed
-  if (flagged&&!revealed) {
-    displayValue = '🚩'; // Display a flag
+  function show(value,revealed,flagged){
+    if (flagged&&!revealed) return '🚩'
+    if(revealed&&value!=='0'){
+      if (value==='M'||value==='X') return '✹'
+      return value
+    }  
+    return ''
   }
+  useEffect(()=>{
+    setD(show(value,revealed,flagged))
+  },[value,revealed,flagged])
+  const [displayValue,setD]=useState(show(value,revealed,flagged))
+  
   let leftButtonDown = false;
   let rightButtonDown = false;
   return (
-    <div className={revealed ? 'cell revealed' : 'cell'}
+    <div className={revealed ? (value==='X'?'cell explode':'cell revealed') : 'cell'}
       onClick={onLeftClick}
       onContextMenu={(e) => { 
         e.preventDefault(); 
